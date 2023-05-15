@@ -2,11 +2,11 @@
 interface Category {
     id: number
     name: string
-    image: string
+    image?: string
 }
 
 export interface Products {
-    id: number
+    id?: number
     title: string
     price: number
     description: string
