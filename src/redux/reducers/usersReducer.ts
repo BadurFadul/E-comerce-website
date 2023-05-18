@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-import { Users } from "../../types/users";
-import { Login } from "../../types/login";
+import { Users } from "../../types/Users";
+import { UserCredentials } from "../../types/UserCredentials";
 
 
 
 const initialState: {
     users: Users[],
+    currentUser?: Users
     loading: boolean,
     error: string
 } = {
@@ -34,11 +35,16 @@ export const createUser = createAsyncThunk(
 
 export const UserLogin = createAsyncThunk(
     "users/UserLogin",  
-    async (obj: Login, { rejectWithValue }) => {
+    async ({email, password}: UserCredentials, { rejectWithValue }) => {
         try {         
-            const result = await axios.post<Login>("https://api.escuelajs.co/api/v1/auth/login", obj)
-            console.log(result.data)
-            return result.data
+            const result = await axios.post<{access_token: string}>("https://api.escuelajs.co/api/v1/auth/login", {email, password})
+            localStorage.setItem("token", result.data.access_token)
+            const authentication = await axios.get<Users>("https://api.escuelajs.co/api/v1/auth/profile", {
+                headers: {
+                    "Authorization": `Bearer ${result.data.access_token}`
+                } 
+            })
+            return authentication.data
         }catch (e) {
             const error = e as AxiosError
             // Return only the error message not the whole AxiosError object
@@ -68,6 +74,13 @@ const userSlice = createSlice({
         .addCase(createUser.rejected, (state, action) =>{
             state.error = action.error.message || "Cannot fetch data"
             state.loading = false;
+        })
+        .addCase(UserLogin.fulfilled, (state, action) => {
+            if(typeof action.payload === "string") {
+                state.error = action.payload
+            } else { 
+                state.currentUser = action.payload
+            }
         })
     }
 })

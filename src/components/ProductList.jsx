@@ -1,5 +1,5 @@
 import React from 'react'
-import { Products } from '../types/products'
+import { Products } from '../types/Products'
 
 import {
     Card,

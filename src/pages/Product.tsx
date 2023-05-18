@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
+import {Link} from 'react-router-dom'
 
 import useAppDispatch from '../hooks/useAppDispatch'
-import { createProduct, getAllProducts, sortByCategory, sortByPrice } from '../redux/reducers/productReducer'
+import { DeleteProduct, createProduct, getAllProducts, sortByCategory, sortByPrice, updateProduct } from '../redux/reducers/productReducer'
 import useAppSelector from '../hooks/useAppSelector'
 import ProductList from '../components/ProductList'
 
@@ -38,13 +39,10 @@ const Product = () => {
     const handleProduct = async () => {
       try {
         const newProduct = {
-          title: "New Product",
+          title: "Brant new one man",
           price: 10,
-          description: "A description",
-          category: {
-            id:5,
-            name: "somthing"
-          },
+          description: "Badoro special",
+          categoryId: 1,
           images: ["https://placeimg.com/640/480/any"]
         };
   
@@ -64,6 +62,19 @@ const Product = () => {
         avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867"
       }
      await dispatch(createUser(user))
+    }
+
+    const handleupdate = async () => {
+      const update = {
+        id:445,
+        title: "Bad title",
+        price: 500
+      }
+      await dispatch(updateProduct(update))
+    }
+
+    const handledelete = async () => {
+      await dispatch(DeleteProduct(4))
     }
 
     const handlelogin =  async () => {
@@ -93,11 +104,17 @@ const Product = () => {
       <button onClick={handleProduct}>Add product</button>
       <button onClick={handleuser}>Add user</button>
       <button onClick={handlelogin}>Login</button>
+      <button onClick={handleupdate}>update product</button>
+      <button onClick={handledelete}>Delete</button>
        {products.map(product => (
         <div key={product.id}>
-          <h2>{product.category.name}</h2>
-          <p>{product.description}</p>
-          <p>Price: {product.price}</p>
+          <Link to={`/products/${product.id}`}>
+            <h2>{product.category.name}</h2>
+            <p>{product.description}</p>
+            <p>{product.title}</p>
+            <p>Price: {product.price}</p>
+            <p>id {product.id}</p>
+          </Link>
         </div>
       ))}
     </div>
