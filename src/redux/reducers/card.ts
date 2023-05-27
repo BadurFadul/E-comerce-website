@@ -19,7 +19,7 @@ const cardSlice = createSlice({
     name:"cardlist",
     initialState,
     reducers: {
-      addToCard: (state, action: PayloadAction<Products>) => {
+      addToCart: (state, action: PayloadAction<Products>) => {
         const itemInCart = state.items.find(item => item.product.id === action.payload.id)
         if(itemInCart) {
             itemInCart.quantity++;
@@ -49,5 +49,5 @@ const cardSlice = createSlice({
 })
 
 const cardReducer = cardSlice.reducer
-export const {addToCard, removeProductFromCart, updateProductQuantityInCart } = cardSlice.actions
+export const {addToCart, removeProductFromCart, updateProductQuantityInCart } = cardSlice.actions
 export default cardReducer

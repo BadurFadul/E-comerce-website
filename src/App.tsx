@@ -1,16 +1,18 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import Product from './pages/Product'
-import Home from './pages/Home'
+import Default from './pages/Default'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Card from './pages/Card'
 import SingleProduct from './pages/SingleProduct'
+import Hero from './components/Hero'
+import Home from './pages/Home'
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element: <Home/>,
+    element: <Default/>,
     errorElement: <NotFound />,
     children:[
       {
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/card",
         element: <Card/>
+      },
+      {
+        path: "/home",
+        element: <Home/>
       }
     ]
   }

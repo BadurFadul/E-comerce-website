@@ -1,22 +1,93 @@
 import { useParams } from 'react-router-dom'
 
+import {
+  Container,
+  Grid, 
+  Box, 
+  Typography,
+  Button,
+  IconButton
+} from '@mui/material'
+import Carousel from 'react-material-ui-carousel'
+
 import useAppSelector from '../hooks/useAppSelector'
+import '..//styles/style.scss'
+
+
+
 
 
 export const SingleProduct = () => {
     const {id} = useParams()
-    const productsingle = useAppSelector(state => state.productReducer)
-    const product = productsingle.products.find(product => product.id == id);
+    const productsingle = useAppSelector(state => state.productReducer.products)
+    const product = productsingle.find(product => product.id == id);
 
     if (!product) return <div>Product not found</div>;
 
   return (
-    <div>
-        <h2>{product.category.name}</h2>
-        <p>{product.description}</p>
-        <p>Price: {product.price}</p>
-        <p>Category: {product.category.name}</p>
-    </div>
+   <Container sx={{ marginTop:'4rem' }}>
+    <Grid 
+      container 
+      spacing={2}
+      sx={{
+        height:'42rem',
+      }}
+    >
+      <Grid item xs={6}>
+      <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            <img
+              src={product.category.image}
+              alt={product.category.name}
+              style={{ maxWidth: '100%', maxHeight: '100%' }}
+            />
+          </Box>
+      </Grid>
+      <Grid item xs={6} sx={{}}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection:'column', 
+          gap:'2rem', 
+          justifyContent:'center',
+          alignContent: 'center',
+          marginTop:'2.1rem',
+          }}
+        >
+          <Box>
+            <Typography variant='h2'>
+              {product.title}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant='h5' >
+              {product.category.name}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant='subtitle1' sx={{color: 'grey'}}>
+              {product.description}
+            </Typography>
+          </Box>
+          <Box padding={1} sx={{display:'flex', justifyContent:'',  alignItems: 'center', gap: '2rem' }}>
+            <Box>
+              <Typography>
+                {product.price} €
+              </Typography>
+            </Box>
+            <Box>
+                <Button variant='contained'>
+                  Add TO CARD
+                </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Grid>     
+    </Grid>
+   </Container>
   )
 }
 

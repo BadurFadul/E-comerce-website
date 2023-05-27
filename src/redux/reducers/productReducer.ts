@@ -59,7 +59,7 @@ export const createProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
     "updateProduct", async (product: UpdateProduct, { rejectWithValue}) => {
         try {         
-            const result = await axios.put<Products>(`https://api.escuelajs.co/api/v1/products/${product.id}`, product)
+            const result = await axios.put<Products>(`https://api.escuelajs.co/api/v1/products/${product}`, product)
             console.log(result.data)
             return result.data
         }catch (e) {
@@ -100,6 +100,9 @@ const productSlice = createSlice({
             state.products.sort((a,b) => b.price - a.price)
         }  
       },
+      cleanUpProducts: () => {
+        return initialState
+      }
     },
     extraReducers: (build) => {
         build
@@ -156,5 +159,5 @@ const productSlice = createSlice({
     })
 
 const productReducer = productSlice.reducer
-export const {sortByCategory, sortByPrice} = productSlice.actions
+export const {sortByCategory, sortByPrice, cleanUpProducts} = productSlice.actions
 export default productReducer

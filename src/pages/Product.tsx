@@ -1,123 +1,94 @@
 import  { useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
-import {Link} from 'react-router-dom'
 
 import useAppDispatch from '../hooks/useAppDispatch'
-import { DeleteProduct, createProduct, getAllProducts, sortByCategory, sortByPrice, updateProduct } from '../redux/reducers/productReducer'
+import { getAllProducts, sortByCategory, sortByPrice } from '../redux/reducers/productReducer'
 import useAppSelector from '../hooks/useAppSelector'
-import ProductList from '../components/ProductList'
+import ProductCart from '../components/ProductCart'
 
 import {
-  Card,
-  CardContent,
-  CardMedia, 
-  Typography,  
-  Grid 
+  Container,
+  Grid, 
+  Box, 
+  TextField,
+  FormControl,
+  InputLabel,  
+  MenuItem,
+  Select,
+  Button
 } from '@mui/material'
-import { UserLogin, createUser } from '../redux/reducers/usersReducer'
+//import { UserLogin, createUser } from '../redux/reducers/usersReducer'
 
 
 const Product = () => {
     const dispatch = useAppDispatch()
     const {products, error, loading} = useAppSelector(state => state.productReducer)
-    const [catSort, setCatSort] = useState<"asc"|"desc">("asc")
-    const [priceSort, setPriceSort] = useState<"low"|"high">("low")
+    const [selectedValue, setSelectedValue] = useState("cat_asc"); // set initial state
+    //const [catSort, setCatSort] = useState<"asc"|"desc">("asc")
+    //const [priceSort, setPriceSort] = useState<"low"|"high">("low")
 
     useEffect(() =>{
         dispatch(getAllProducts())
     },[])
 
-    const handleCategory = () => {
-      dispatch(sortByCategory(catSort))
-      setCatSort(catSort === "asc" ? "desc" : "asc")
-    }
-    const handlePrice = () => {
-      dispatch(sortByPrice(priceSort))
-      setPriceSort(priceSort === "low" ? "high" : "low")
-    }
-
-    const handleProduct = async () => {
-      try {
-        const newProduct = {
-          title: "Brant new one man",
-          price: 10,
-          description: "Badoro special",
-          categoryId: 1,
-          images: ["https://placeimg.com/640/480/any"]
-        };
   
-        await dispatch(createProduct(newProduct));
-        console.log("Product created successfully!");
-      } catch (error) {
-        const err = error as AxiosError
-        console.log("Error creating product:", err.message);
-      }
-    }
-
-    const handleuser =  async () => {
-      const user = {
-        name: "Badman",
-        email: "test@mail.com",
-        password: "test",
-        avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867"
-      }
-     await dispatch(createUser(user))
-    }
-
-    const handleupdate = async () => {
-      const update = {
-        id:445,
-        title: "Bad title",
-        price: 500
-      }
-      await dispatch(updateProduct(update))
-    }
-
-    const handledelete = async () => {
-      await dispatch(DeleteProduct(4))
-    }
-
-    const handlelogin =  async () => {
-      const login = {
-        email: "test@mail.com",
-        password: "test",
-      }
-     await dispatch(UserLogin(login))
-    }
-
 
     if (loading) {
       return (
-        <h2>loading...</h2>
+        <Container>loading...</Container>
       )
     }
     if (error) {
       return (
-        <h2>Error in the server</h2>
+        <Container>Error in the server</Container>
       )
     }
 
   return (
-    <div>
-      <button onClick={handleCategory}>sort by category</button>
-      <button onClick={handlePrice}>sort by price</button>
-      <button onClick={handleProduct}>Add product</button>
-      <button onClick={handleuser}>Add user</button>
-      <button onClick={handlelogin}>Login</button>
-      <button onClick={handleupdate}>update product</button>
-      <button onClick={handledelete}>Delete</button>
-       {products.map(product => (
-        <div key={product.id}>
-          <Link to={`/products/${product.id}`}>
-            <h2>{product.category.name}</h2>
-            <p>{product.description}</p>
-            <p>{product.title}</p>
-            <p>Price: {product.price}</p>
-            <p>id {product.id}</p>
-          </Link>
-        </div>
-      ))}
-    </div>
+    <Container sx={{ marginTop:'4rem' }}>
+      <Box sx={{ display: 'flex', marginBottom: '2rem', gap:'1rem', justifyContent: 'center'}}>
+        <Box>
+          <TextField
+            label='Search'
+            required
+            placeholder='Search for specific product'
+        
+          >
+          </TextField>
+        </Box>
+        <Box>
+            <FormControl sx={{ minWidth:250}}>
+              <InputLabel>Sort by</InputLabel>
+              <Select
+                value={selectedValue}
+                onChange={(e) => {
+                    setSelectedValue(e.target.value);
+                    const [type, order] = (e.target.value as string).split('_');
+                    if (type === 'cat') {
+                        dispatch(sortByCategory(order as "asc" | "desc"));
+                    } else if (type === 'price') {
+                        dispatch(sortByPrice(order as "low" | "high"));
+                    }
+                }}
+              >
+                <MenuItem value="cat_asc">Category - Ascending</MenuItem>
+                <MenuItem value="cat_desc">Category - Descending</MenuItem>
+                <MenuItem value="price_low">Price - Low to High</MenuItem>
+                <MenuItem value="price_high">Price - High to Low</MenuItem>
+              </Select>
+          </FormControl>
+        </Box>
+        <Box>
+            <Button></Button>
+        </Box>
+      </Box>
+      <Grid container spacing={5}>
+        {Array.isArray(products) && products.map(products => (
+          <ProductCart key={products.id} products={products}></ProductCart>
+          
+        ))}
+      </Grid>
+      
+    </Container>
   )
 }
 
