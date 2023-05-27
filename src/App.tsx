@@ -31,7 +31,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/card",
-        element: <Card/>
+        element: <Card open={false} handleClose={function (): void {
+          throw new Error('Function not implemented.')
+        } }/>
       },
       {
         path: "/home",

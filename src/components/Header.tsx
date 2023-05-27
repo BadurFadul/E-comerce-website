@@ -5,6 +5,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { Link } from 'react-router-dom';
+import useAppSelector from '../hooks/useAppSelector';
 
 const Logo = styled(Typography)(({ theme }) => ({
   marginRight: theme.spacing(10),
@@ -21,7 +22,18 @@ const Profile = styled('div')({
   alignItems: 'center',
 });
 
-function Header() {
+interface HeaderProps {
+  handleClickOpen: () => void;
+}
+
+interface CartProps {
+  open: boolean;
+  handleClose: () => void;
+}
+
+function Header({ handleClickOpen }: HeaderProps) {
+  const items = useAppSelector(state => state.cardReducer.items);
+
   return (
     <AppBar
       elevation={0}
@@ -58,11 +70,9 @@ function Header() {
           <IconButton color="inherit">
             <AccountCircleOutlinedIcon />
           </IconButton>
-          <IconButton color="inherit">
-            <Link to={`/card`}>
+          <IconButton color="inherit" onClick={handleClickOpen}>
               <ShoppingBagOutlinedIcon />
-            </Link>
-            
+              {items.length}
           </IconButton>
           <IconButton color="inherit">
             <LightModeOutlinedIcon />

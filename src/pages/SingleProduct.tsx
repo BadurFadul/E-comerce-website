@@ -11,18 +11,24 @@ import {
 import Carousel from 'react-material-ui-carousel'
 
 import useAppSelector from '../hooks/useAppSelector'
+import useAppDispatch from '../hooks/useAppDispatch'
 import '..//styles/style.scss'
-
-
-
+import { addToCart } from '../redux/reducers/card'
+import { Products } from '../types/Products'
 
 
 export const SingleProduct = () => {
     const {id} = useParams()
+    const dispatch = useAppDispatch()
     const productsingle = useAppSelector(state => state.productReducer.products)
     const product = productsingle.find(product => product.id == id);
 
+
     if (!product) return <div>Product not found</div>;
+
+    const handeAddtoCart = (product: Products) => {
+      dispatch(addToCart(product))
+    }
 
   return (
    <Container sx={{ marginTop:'4rem' }}>
@@ -79,7 +85,7 @@ export const SingleProduct = () => {
               </Typography>
             </Box>
             <Box>
-                <Button variant='contained'>
+                <Button variant='contained' onClick={ () => handeAddtoCart(product)}>
                   Add TO CARD
                 </Button>
             </Box>

@@ -1,41 +1,151 @@
 import React from 'react';
-import { Typography, Container, Grid, Paper } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  IconButton, 
+  DialogContent, 
+  Grid, 
+  Paper, 
+  Typography, 
+  CircularProgress, 
+  Box, 
+  Button  
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import useAppSelector from '../hooks/useAppSelector';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { removeProductFromCart, updateProductQuantityInCart, addToCart, emptyCart } from '../redux/reducers/card';
 
+interface CartProps {
+  open: boolean;
+  handleClose: () => void;
+}
 
-const Card = () => {
+const Card: React.FC<CartProps> = ({ open, handleClose }) => {
   const {items, loading, error} = useAppSelector(state => state.cardReducer);
+  const dispatch = useAppDispatch()
 
-  if (loading) {
-    return <p>Loading...</p>;
+
+  const handleDecreaseQuantity = (productId: number) => {
+    const existingItem = items.find(item => item.product.id === productId);
+    if (existingItem && existingItem.quantity > 1) {
+      const newQuantity = existingItem.quantity - 1;
+      dispatch(updateProductQuantityInCart({ productId, quantity: newQuantity }));
+    }
+  };
+
+  const handleRemove = (productId: number) => {
+    dispatch(removeProductFromCart(productId))
   }
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  if(items.length ===0){
-    return <Typography variant='h5'>your cart is empty</Typography>
+  const handleEmptyCart = () => {
+    dispatch(emptyCart())
   }
 
   return (
-    <Container sx={{marginTop:'2rem'}}>
-      <Typography variant='h3'>
-        list in your cart
-      </Typography>
-      <Grid container spacing={2}>
-      {items.map((item) => (
-        <Grid item xs={6} key={item.product.id}>
-          <Paper>
-            <img src={`${item.product.images}`} alt={item.product.title} style={{width: '100%'}} />
-            <h4>{item.product.title}</h4>
-            <p>Quantity: {item.quantity}</p>
-          </Paper>
-        </Grid>
-      ))}
-    </Grid>
-    </Container>
+    <Dialog
+    open={open}
+    onClose={handleClose}
+    fullWidth
+    maxWidth='sm'
+    sx={{
+      '& .MuiDialog-paper': {
+        m: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        maxHeight: '100%',
+        overflow: 'auto',
+        width: '25%',  // you can adjust this as needed
+        height: '100%',
+      },
+    }}
+  >
+    <DialogTitle>
+      Your Shopping Cart
+      <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+        <CloseIcon />
+      </IconButton>
+      {items.length > 0 && (
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <IconButton>
+              <DeleteOutlineOutlinedIcon onClick={handleEmptyCart}>
+                Empty Cart
+              </DeleteOutlineOutlinedIcon>
+            </IconButton>
+          </Box>
+        )}
+    </DialogTitle>
+    <DialogContent>
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Typography variant='h6'>{error}</Typography>
+        </Box>
+      ) : items.length === 0 ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Typography variant='h6'>Your cart is empty</Typography>
+        </Box>
+      ) : (
+        items.map((item) => (
+          <Grid item xs={12} md={8} key={item.product.id} sx={{marginBottom:'1rem'}}>
+            <Paper >
+              <img src={`${item.product.images}`} alt={item.product.title} style={{width: '100%'}} />
+              <h4>{item.product.title}</h4>
+              <Box sx={{display:'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                  <Box>
+                    <Typography>
+                      {item.product.price * item.quantity} €
+                    </Typography>
+                  </Box>
+                  <Box>
+                    Quantity {item.quantity}
+                  </Box>                
+              </Box>
+              <Box sx={{display:'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+              <Box>
+                    <Button
+                      variant='outlined'
+                      color='primary'
+                      size='small'
+                      onClick={() =>item.product.id && handleDecreaseQuantity(item.product.id)}
+                      disabled={item.quantity === 1}
+                    >
+                      -
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button
+                      variant='outlined'
+                      color='primary'
+                      size='small'
+                      onClick={() => dispatch(addToCart(item.product))}
+                    >
+                      +
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button 
+                      variant='outlined'
+                      size='small' 
+                      color='error'
+                      onClick={() =>item.product.id && handleRemove(item.product.id)}
+                    >
+                      remove
+                    </Button>
+                  </Box>
+              </Box>
+            </Paper>
+          </Grid>
+        ))
+      )}
+    </DialogContent>
+  </Dialog>
   );
 }
 

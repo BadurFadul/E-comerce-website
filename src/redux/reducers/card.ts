@@ -45,9 +45,12 @@ const cardSlice = createSlice({
               existingItem.quantity = quantity;
             }
           },
+          emptyCart: () => {
+            return initialState
+          }
     }
 })
 
 const cardReducer = cardSlice.reducer
-export const {addToCart, removeProductFromCart, updateProductQuantityInCart } = cardSlice.actions
+export const {addToCart, removeProductFromCart, updateProductQuantityInCart, emptyCart } = cardSlice.actions
 export default cardReducer
