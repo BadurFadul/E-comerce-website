@@ -6,6 +6,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { Link } from 'react-router-dom';
 import useAppSelector from '../hooks/useAppSelector';
+import Login from '../pages/Login';
 
 const Logo = styled(Typography)(({ theme }) => ({
   marginRight: theme.spacing(10),
@@ -65,10 +66,7 @@ function Header({ handleClickOpen }: HeaderProps) {
         </NavLinks>
         <Profile>
           <IconButton color="inherit">
-            <SearchIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <AccountCircleOutlinedIcon />
+          <Login />
           </IconButton>
           <IconButton color="inherit" onClick={handleClickOpen}>
               <ShoppingBagOutlinedIcon />

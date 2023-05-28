@@ -6,8 +6,9 @@ import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import Card from './pages/Card'
 import SingleProduct from './pages/SingleProduct'
-import Hero from './components/Hero'
 import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
         element: <Home/>
       }
     ]
+  },
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/register",
+    element: <Register/>
   }
 ])
 
