@@ -1,51 +1,42 @@
-# Front-end Project
+# E-Commerce Website
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+This project is an e-commerce website built with React, Redux, TypeScript, Material UI, and React Router. Tests are written using Jest and a mock server is used for testin.
 
-This project requires implementation of TypeScript and SASS.
+## Technologies Used
 
-## Requirement
+- React: A JavaScript library for building user interfaces.
+- Redux: A predictable state container for JavaScript apps.
+- TypeScript: A strongly typed superset of JavaScript that adds optional static typing.
+- Material UI: A popular React UI framework.
+- React Router: Declarative routing for React.
+- Jest: A delightful JavaScript Testing Framework with a focus on simplicity.
+- Mock Server: A tool used for mocking API responses for testing and development purposes.
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Home page, product page,
-profile page (only available if user logins), and cart page (cart could be a page or a modal)
-3. Create Redux store for following features:
-    - product reducer: get all products, find a single products, sort products by
-    categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp. For example, you can check if user is your admin account before let them delete product)
-    - user reducer: Register and Login
-    - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Deploy the application and rewrite README file.
+## Getting Started
 
-## Bonus
+To get a local copy up and running, follow these steps:
 
-1. Use context API to switch theme
-2. Implement unit testing for the reducers
+### Prerequisites
 
-## Instruction to start the project
+- Node.js: Ensure you have Node.js installed on your local machine. If not, you can download it from [here](https://nodejs.org/).
 
-In the project directory, you can run:
+### Installation
 
-### `npm install`
+1. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+2. Navigate to the project folder: cd Project-Name
+3. Install NPM packages: npm install
+4. Start project: npm start
 
-Install all the dependencies
+### Running the tests
+npm test testfile-Name
 
-### `npm start`
+###
+Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Browse through the products.
+- Filter and sort products.
+- Add products to the cart.
+- login and register
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
