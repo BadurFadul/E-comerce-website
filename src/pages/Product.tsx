@@ -23,8 +23,7 @@ const Product = () => {
     const dispatch = useAppDispatch()
     const {products, error, loading} = useAppSelector(state => state.productReducer)
     const [selectedValue, setSelectedValue] = useState("cat_asc"); // set initial state
-    //const [catSort, setCatSort] = useState<"asc"|"desc">("asc")
-    //const [priceSort, setPriceSort] = useState<"low"|"high">("low")
+
 
     useEffect(() =>{
         dispatch(getAllProducts())
@@ -34,12 +33,16 @@ const Product = () => {
 
     if (loading) {
       return (
-        <Container>loading...</Container>
+        <Container sx={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          Loading...
+        </Container>
       )
     }
     if (error) {
       return (
-        <Container>Error in the server</Container>
+        <Container sx={{height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          Error in the server
+        </Container>
       )
     }
 

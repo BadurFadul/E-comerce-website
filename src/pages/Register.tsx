@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Box, TextField, Container, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Box, TextField, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import registrationSchema from '../validations/registrationSchema';

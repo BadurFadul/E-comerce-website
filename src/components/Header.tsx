@@ -1,7 +1,5 @@
 import { AppBar, Toolbar, Typography, IconButton, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { Link } from 'react-router-dom';
@@ -27,10 +25,6 @@ interface HeaderProps {
   handleClickOpen: () => void;
 }
 
-interface CartProps {
-  open: boolean;
-  handleClose: () => void;
-}
 
 function Header({ handleClickOpen }: HeaderProps) {
   const items = useAppSelector(state => state.cardReducer.items);
@@ -60,7 +54,7 @@ function Header({ handleClickOpen }: HeaderProps) {
           </Typography>
         </Logo>
         <NavLinks>
-          <Button color="inherit" component={Link} to="/home">Home</Button>
+          <Button color="inherit" component={Link} to="/">Home</Button>
           <Button color="inherit" component={Link} to="/products">Shops</Button>
           <Button color="inherit" component={Link} to="/profile">Profile</Button>
         </NavLinks>

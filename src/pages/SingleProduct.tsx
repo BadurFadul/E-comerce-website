@@ -6,9 +6,8 @@ import {
   Box, 
   Typography,
   Button,
-  IconButton
 } from '@mui/material'
-import Carousel from 'react-material-ui-carousel'
+//import Carousel from 'react-material-ui-carousel'
 
 import useAppSelector from '../hooks/useAppSelector'
 import useAppDispatch from '../hooks/useAppDispatch'
@@ -21,6 +20,7 @@ export const SingleProduct = () => {
     const {id} = useParams()
     const dispatch = useAppDispatch()
     const productsingle = useAppSelector(state => state.productReducer.products)
+    // eslint-disable-next-line eqeqeq
     const product = productsingle.find(product => product.id == id);
 
 

@@ -17,38 +17,37 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children:[
       {
-        path: "/products",
+        path: "/", // This will be treated as your homepage
+        element: <Home/>,
+      },
+      {
+        path: "products",
         element: <Product/>,
         
       },
       {
-        path: "/products/:id",
+        path: "products/:id",
         element: <SingleProduct/>,
-        
       },
       {
-        path: "/profile",
-        element: <Profile/>
+        path: "profile",
+        element: <Profile/>,
       },
       {
-        path: "/card",
+        path: "card",
         element: <Card open={false} handleClose={function (): void {
-          throw new Error('Function not implemented.')
+          throw new Error('Function not implemented.');
         } }/>
-      },
-      {
-        path: "/home",
-        element: <Home/>
       }
     ]
   },
   {
     path: "/login",
-    element: <Login/>
+    element: <Login/>,
   },
   {
     path: "/register",
-    element: <Register/>
+    element: <Register/>,
   }
 ])
 
