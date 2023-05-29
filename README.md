@@ -40,3 +40,4 @@ Features
 - Add products to the cart.
 - login and register
 
+[live preview](https://64743d1cacca053cd888470c--soft-biscotti-2c1d3c.netlify.app/)
